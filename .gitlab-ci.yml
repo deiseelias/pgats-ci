@@ -1,0 +1,37 @@
+# Imagem Docker oficial do Node com o ambiente pronto
+image: node:20
+
+# Definição das etapas da pipeline
+stages:
+  - test
+
+# Job responsável por rodar os testes
+executar-testes:
+  stage: test
+  
+  # Gatilho: define que essa esteira roda em qualquer branch (ou mude para master)
+  only:
+    - master
+    - main
+    - merge_requests
+
+  # Passos que a máquina vai executar (equivalente ao run/steps do GitHub)
+  script:
+    # 1. Instalar o Yarn globalmente
+    - npm install -g yarn
+    
+    # 2. Instalar as dependências do projeto
+    - yarn install
+    
+    # 3. Baixar os browsers do Playwright
+    - npx playwright install --with-deps
+    
+    # 4. Rodar os testes e2e
+    - yarn run e2e
+
+  # Manter o relatório do Playwright disponível para download no GitLab se algo falhar
+  artifacts:
+    when: always
+    paths:
+      - playwright-report/
+    expire_in: 1 week
