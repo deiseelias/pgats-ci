@@ -1,12 +1,12 @@
-name: "Pipeline de Integração Contínua - Entrega Final"
+name: 'Pipeline de Integração Contínua - Entrega Final'
 
 # 1. Definição de todos os Gatilhos (Triggers) solicitados
 on:
   push:
-    branches: [ master, main ]   # Execução por push [6, 7]
-  workflow_dispatch:            # Execução manual (botão no GitHub) [8, 9]
+    branches: [master, main] # Execução por push [6, 7]
+  workflow_dispatch: # Execução manual (botão no GitHub) [8, 9]
   schedule:
-    - cron: '0 8 * * *'         # Execução agendada (ex: diariamente às 08h UTC) [10, 11]
+    - cron: '0 8 * * *' # Execução agendada (ex: diariamente às 08h UTC) [10, 11]
 
 jobs:
   # Job de Inspeção de Código (Lint)
@@ -22,7 +22,7 @@ jobs:
       - name: Instalando Dependências
         run: yarn # [12]
       - name: Verificação de Estilo (Lint)
-        run: yarn run lint  # Ou comando similar do seu projeto [13]
+        run: yarn run lint # Ou comando similar do seu projeto [13]
 
   # Job de Testes de Unidade
   unidade:
@@ -57,10 +57,10 @@ jobs:
       # 2. Geração e Armazenamento do Relatório na Pipeline
       - name: Salvando relatórios de testes
         uses: actions/upload-artifact@v4 # [4, 18]
-        if: ${{ always() }}  # Garante que o relatório seja salvo mesmo se os testes falharem [4]
+        if: ${{ always() }} # Garante que o relatório seja salvo mesmo se os testes falharem [4]
         with:
           name: relatorio-playwright
-          path: ./playwright-report  # Verifique o caminho da pasta de relatórios do seu projeto [4]
+          path: ./playwright-report # Verifique o caminho da pasta de relatórios do seu projeto [4]
 
   # Job de Deploy Simulado (Fase final da Pipeline)
   deploy:
